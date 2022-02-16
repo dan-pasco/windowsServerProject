@@ -7,7 +7,7 @@ provider "aws"{
 variable "ingressvar" {
 
   type = list(number)
-  default = [ 80,3389,22 ]
+  default = [ 80,22,443 ]
   
 }
 
@@ -15,27 +15,26 @@ variable "ingressvar" {
 variable "egressvar" {
 
   type = list(number)
-  default = [ 80,3389,22 ]
+  default = [ 80,22,443 ]
   
 }
 
 
-resource "aws_instance" "WindowsServer" {
+resource "aws_instance" "WordPress-AMI" {
 
-    ami = "ami-0ec7f6ff826360ee9"
+    ami = "ami-0a4e637babb7b0a86"
     instance_type = "t2.micro"
     key_name = "EC2website"
-    user_data = file("script.sh")
-    security_groups = [ aws_security_group.windows_server_sg.name ]
+    security_groups = [ aws_security_group.WordPress-AMI.name ]
 
     tags = {
-      Name = "Windows Server"
+      Name = "WordPress AMI"
     }
   
 }
 
 
-resource "aws_security_group" "windows_server_sg" {
+resource "aws_security_group" "WordPress-AMI" {
 
   name = "Allow Traffic"
 
@@ -65,7 +64,7 @@ resource "aws_security_group" "windows_server_sg" {
   
   tags = {
 
-    Name = "Allow Tls"
+    Name = "WordPress-SG-AMI"
 
   }
 }
