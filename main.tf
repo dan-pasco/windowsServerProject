@@ -25,6 +25,7 @@ resource "aws_instance" "WordPress-AMI" {
     ami = "ami-0a4e637babb7b0a86"
     instance_type = "t2.micro"
     key_name = "EC2website"
+    user_data = file ("script.sh")
     security_groups = [ aws_security_group.WordPress-AMI.name ]
 
     tags = {
@@ -36,7 +37,7 @@ resource "aws_instance" "WordPress-AMI" {
 
 resource "aws_security_group" "WordPress-AMI" {
 
-  name = "Allow Traffic"
+  name = "AMI-Build"
 
   dynamic "ingress"{
     iterator = port
